@@ -31,13 +31,6 @@ func (q Query) Encode() []byte {
 	var buffer bytes.Buffer
 	binary.Write(&buffer, binary.BigEndian, q.ID)
 
-	b2i := func (b bool) int {
-		if b {
-			return 1
-		}
-		return 0
-	}
-
 	queryParams1 := byte(b2i(q.QR)<<7 | int(q.OPCODE)<<3 | b2i(q.AA)<<1 | b2i(q.RD))
 	queryParams2 := byte(b2i(q.RA)<<7 | int(q.Z)<<4)
 
@@ -53,4 +46,12 @@ func (q Query) Encode() []byte {
 	}
 
 	return buffer.Bytes()
+}
+
+// b2i convert bool to int
+func b2i(b bool) int {
+	if b {
+		return 1
+	}
+	return 0
 }
